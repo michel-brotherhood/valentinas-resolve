@@ -32,7 +32,7 @@ function Contato() {
       const formData = new FormData(e.target)
       const data = Object.fromEntries(formData)
 
-      const response = await fetch('/.netlify/functions/send-email', {
+      const response = await fetch('/api/send-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -36,7 +36,7 @@ function ContabilidadeIntegrada() {
       const interesseCheckboxes = formData.getAll('interesse')
       data.interesse = interesseCheckboxes.join(', ')
 
-      const response = await fetch('/.netlify/functions/send-email', {
+      const response = await fetch('/api/send-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

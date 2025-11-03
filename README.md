@@ -34,7 +34,7 @@ Ser a maior plataforma de integração de serviços do Brasil, reconhecida pela 
 
 ### Backend/Integração
 - **Resend** - Serviço de e-mail
-- **Netlify Functions** - Serverless functions
+- **Vercel Functions** - Serverless functions
 - **React Hook Form + Zod** - Formulários e validação
 
 ### Ferramentas
@@ -103,39 +103,38 @@ RESEND_API_KEY=your_resend_api_key_here
 
 ## 🚀 Deploy
 
-### Netlify (Recomendado)
-1. Conecte o repositório GitHub ao Netlify
+### Vercel (Recomendado)
+1. Conecte o repositório GitHub ao Vercel
 2. Configure:
-   - **Build command**: `pnpm install && pnpm build`
-   - **Publish directory**: `dist`
-   - **Functions directory**: `netlify/functions`
+   - **Framework Preset**: Vite
+   - **Build Command**: `pnpm build`
+   - **Output Directory**: `dist`
 3. Adicione a variável `RESEND_API_KEY` nas configurações
+4. Deploy automático a cada push!
 
 ### Deploy Manual
 1. Faça o build: `pnpm build`
-2. Faça upload da pasta `dist` e `netlify/functions`
+2. Faça upload da pasta `dist` e `api/`
 
 ## 📊 Estrutura do Projeto
 
 ```
 valentinas-resolve/
-├── public/                 # Arquivos estáticos
+├── api/                   # Vercel API Routes
+│   └── send-email.js     # Integração Resend
+├── public/               # Arquivos estáticos
 ├── src/
-│   ├── components/        # Componentes React
-│   │   ├── ui/           # Componentes UI base
-│   │   ├── Layout.jsx    # Layout principal
-│   │   ├── Loading.jsx   # Componente de loading
+│   ├── components/       # Componentes React
+│   │   ├── ui/          # Componentes UI base
+│   │   ├── Layout.jsx   # Layout principal
+│   │   ├── Loading.jsx  # Componente de loading
 │   │   └── ErrorBoundary.jsx
-│   ├── pages/            # Páginas da aplicação
-│   ├── hooks/            # Custom hooks
-│   ├── lib/              # Utilitários
-│   ├── App.jsx           # Componente principal
-│   └── main.jsx          # Entry point
-├── netlify/
-│   └── functions/        # Netlify Functions
-│       ├── send-email.js # Integração Resend
-│       └── package.json
-├── netlify.toml          # Configuração Netlify
+│   ├── pages/           # Páginas da aplicação
+│   ├── hooks/           # Custom hooks
+│   ├── lib/             # Utilitários
+│   ├── App.jsx          # Componente principal
+│   └── main.jsx         # Entry point
+├── vercel.json          # Configuração Vercel
 ├── package.json
 ├── vite.config.js
 └── README.md
@@ -144,9 +143,9 @@ valentinas-resolve/
 ## 📧 Configuração de E-mail
 
 ### Resend Integration
-O projeto usa Resend para envio de e-mails através de Netlify Functions:
+O projeto usa Resend para envio de e-mails através de Vercel API Routes:
 
-- **Endpoint**: `/.netlify/functions/send-email`
+- **Endpoint**: `/api/send-email`
 - **Método**: POST
 - **Headers**: CORS configurado
 - **Validação**: Campos obrigatórios e formato
@@ -177,7 +176,7 @@ Este projeto é propriedade da Valentina's Resolve. Todos os direitos reservados
 
 - ✅ **Frontend**: Completo e responsivo
 - ✅ **Backend**: Integração Resend funcional
-- ✅ **Deploy**: Pronto para Netlify
+- ✅ **Deploy**: Pronto para Vercel
 - ✅ **E-mails**: Configurados e testados
 - ✅ **UX/UI**: Otimizada para conversão
 
