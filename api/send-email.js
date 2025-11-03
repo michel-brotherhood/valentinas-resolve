@@ -1,6 +1,6 @@
 import { Resend } from 'resend';
 
-const resend = new Resend('re_HirwSpwh_E7GtECWbMxNayrVLABh1nRtv');
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export default async function handler(req, res) {
   // Configurar CORS
@@ -22,6 +22,15 @@ export default async function handler(req, res) {
     });
   }
 
+  // Verificar se a API key está configurada
+  if (!process.env.RESEND_API_KEY) {
+    console.error('RESEND_API_KEY não configurada');
+    return res.status(500).json({ 
+      success: false, 
+      error: 'Configuração de e-mail não encontrada' 
+    });
+  }
+
   try {
     const { formType, formData } = req.body;
 
@@ -39,11 +48,16 @@ export default async function handler(req, res) {
       toEmail = 'contabilidade@valentinasresolve.com.br';
       subject = 'Nova Solicitação de Atendimento Contábil';
       
-      // Processar tipos de interesse
+      // Processar tipos de interesse dos checkboxes
       const tiposInteresse = [];
-      if (formData.cliente_cpf) tiposInteresse.push('Cliente da plataforma - Regularizar CPF');
-      if (formData.autonomo_suporte) tiposInteresse.push('Profissional autônomo - Suporte contábil');
-      if (formData.empresa_integracao) tiposInteresse.push('Empresa - Integração fiscal completa');
+      if (formData.interesse) {
+        const interesseArray = Array.isArray(formData.interesse) ? formData.interesse : [formData.interesse];
+        interesseArray.forEach(tipo => {
+          if (tipo === 'cliente_cpf') tiposInteresse.push('Cliente da plataforma - Regularizar CPF');
+          if (tipo === 'autonomo_contabil') tiposInteresse.push('Profissional autônomo - Suporte contábil');
+          if (tipo === 'empresa_fiscal') tiposInteresse.push('Empresa - Integração fiscal completa');
+        });
+      }
 
       htmlContent = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
